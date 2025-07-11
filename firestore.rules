@@ -1,0 +1,20 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isFamilyMember(userId) {
+      return exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.familyGroupId ==
+             get(/databases/$(database)/documents/users/$(userId)).data.familyGroupId;
+    }
+    match /healthData/{userId}/{date} {
+      allow read: if isFamilyMember(userId);
+      allow write: if request.auth.uid == userId;
+    }
+    match /familyGroups/{groupId} {
+      allow read, write: if request.auth.uid in resource.data.members;
+    }
+    match /users/{userId} {
+      allow read, write: if request.auth.uid == userId;
+    }
+  }
+}
