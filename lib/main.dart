@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'auth/login_page.dart';
 import 'auth/register_page.dart';
 import 'family/family_dashboard_page.dart';
+import 'family/family_create_page.dart';
 import 'health/health_dashboard_page.dart';
 import 'firebase_options.dart'; // flutterfire configureで自動生成
 
@@ -32,6 +33,7 @@ class FamilyHealthApp extends StatelessWidget {
         '/login': (context) => const LoginPage(),
         '/register': (context) => const RegisterPage(),
         '/family': (context) => const FamilyDashboardPage(),
+        '/family_create': (context) => const FamilyCreatePage(),
         '/health': (context) => const HealthDashboardPage(),
       },
     );
