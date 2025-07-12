@@ -1,20 +1,71 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    // ユーザーが認証されているかチェック
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // ユーザーが自分のデータにアクセスしているかチェック
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    // ユーザーが家族メンバーかチェック
     function isFamilyMember(userId) {
-      return exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+      return isAuthenticated() && 
+             exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
              get(/databases/$(database)/documents/users/$(request.auth.uid)).data.familyGroupId ==
              get(/databases/$(database)/documents/users/$(userId)).data.familyGroupId;
     }
+    
+    // ユーザーが家族グループのメンバーかチェック
+    function isGroupMember(groupId) {
+      return isAuthenticated() && 
+             request.auth.uid in resource.data.members;
+    }
+    
+    // データが有効な健康データかチェック
+    function isValidHealthData(data) {
+      return data.keys().hasAll(['steps', 'activeCalories', 'exerciseTime']) &&
+             data.steps is number && data.steps >= 0 &&
+             data.activeCalories is number && data.activeCalories >= 0 &&
+             data.exerciseTime is number && data.exerciseTime >= 0;
+    }
+    
+    // ユーザープロフィール
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
+      allow delete: if isOwner(userId);
+    }
+    
+    // 家族グループ
+    match /familyGroups/{groupId} {
+      allow read: if isGroupMember(groupId);
+      allow create: if isAuthenticated();
+      allow update: if isGroupMember(groupId);
+      allow delete: if isGroupMember(groupId);
+    }
+    
+    // 健康データ
     match /healthData/{userId}/{date} {
       allow read: if isFamilyMember(userId);
-      allow write: if request.auth.uid == userId;
+      allow create: if isOwner(userId) && isValidHealthData(request.resource.data);
+      allow update: if isOwner(userId) && isValidHealthData(request.resource.data);
+      allow delete: if isOwner(userId);
     }
-    match /familyGroups/{groupId} {
-      allow read, write: if request.auth.uid in resource.data.members;
+    
+    // フィットネストラッカー連携情報
+    match /fitnessConnections/{userId} {
+      allow read: if isOwner(userId);
+      allow write: if isOwner(userId);
     }
-    match /users/{userId} {
-      allow read, write: if request.auth.uid == userId;
+    
+    // その他のコレクションは拒否
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }

@@ -6,4 +6,6 @@ class FirestorePaths {
 
 class AppConstants {
   static const String appName = '家族健康アプリ';
+  static const String customDomain = 'demagen.com';
+  static const String appUrl = 'https://demagen.com';
 }
