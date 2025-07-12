@@ -21,7 +21,7 @@ class _RegisterPageState extends State<RegisterPage> {
     setState(() { _loading = true; _error = null; });
     _formKey.currentState!.save();
     try {
-      final result = await AuthService().registerWithEmail(_email, _password);
+      await AuthService().registerWithEmail(_email, _password);
       if (mounted) {
         Navigator.pushReplacementNamed(context, '/family');
       }
