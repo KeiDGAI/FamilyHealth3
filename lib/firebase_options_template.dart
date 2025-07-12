@@ -47,28 +47,28 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDcuAT_neyVTDsvaYeO24i7VF5uemtcH4c',
-    appId: '1:120244845106:web:f84c91909311392c279a2b',
-    messagingSenderId: '120244845106',
+    apiKey: 'YOUR_WEB_API_KEY',
+    appId: 'YOUR_WEB_APP_ID',
+    messagingSenderId: 'YOUR_SENDER_ID',
     projectId: 'familyhealth3',
     authDomain: 'familyhealth3.firebaseapp.com',
     storageBucket: 'familyhealth3.firebasestorage.app',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBQW2f59UQsqTd7tC0oKX4RNcIK7EpOgm0',
-    appId: '1:120244845106:android:4998e516821830ac279a2b',
-    messagingSenderId: '120244845106',
+    apiKey: 'YOUR_ANDROID_API_KEY',
+    appId: 'YOUR_ANDROID_APP_ID',
+    messagingSenderId: 'YOUR_SENDER_ID',
     projectId: 'familyhealth3',
     storageBucket: 'familyhealth3.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCFKQTEb4zztCQLVBYNmv9sWUAZEalAkhs',
-    appId: '1:120244845106:ios:2c55475c47702a1c279a2b',
-    messagingSenderId: '120244845106',
+    apiKey: 'YOUR_IOS_API_KEY',
+    appId: 'YOUR_IOS_APP_ID',
+    messagingSenderId: 'YOUR_SENDER_ID',
     projectId: 'familyhealth3',
     storageBucket: 'familyhealth3.firebasestorage.app',
     iosBundleId: 'my.family',
   );
-}
+} 
