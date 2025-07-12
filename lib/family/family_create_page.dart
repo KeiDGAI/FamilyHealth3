@@ -10,6 +10,8 @@ class FamilyCreatePage extends StatefulWidget {
 
 class _FamilyCreatePageState extends State<FamilyCreatePage> {
   final _formKey = GlobalKey<FormState>();
+  // サービス連携時に使用予定
+  // ignore: unused_field
   String _groupName = '';
   String? _error;
   bool _loading = false;
@@ -59,7 +61,7 @@ class _FamilyCreatePageState extends State<FamilyCreatePage> {
                   ),
                 LargeButton(
                   label: '作成',
-                  onPressed: _loading ? null : () async { _createGroup(); },
+                  onPressed: _loading ? null : _createGroup,
                 ),
               ],
             ),

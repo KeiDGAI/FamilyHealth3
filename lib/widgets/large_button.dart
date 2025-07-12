@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class LargeButton extends StatelessWidget {
   final String label;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   const LargeButton({super.key, required this.label, required this.onPressed});
 

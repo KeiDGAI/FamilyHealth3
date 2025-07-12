@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../utils/validators.dart';
 import 'auth_service.dart';
 
@@ -22,7 +21,7 @@ class _LoginPageState extends State<LoginPage> {
     setState(() { _loading = true; _error = null; });
     _formKey.currentState!.save();
     try {
-      final result = await AuthService().signInWithEmail(_email, _password);
+      await AuthService().signInWithEmail(_email, _password);
       if (mounted) {
         Navigator.pushReplacementNamed(context, '/family');
       }
